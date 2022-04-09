@@ -1,0 +1,20 @@
+/.idea/
+/target/
+/rpc-framework-core/target/
+/rpc-framework-common/target/
+/hello-service-api/target/
+/example-server/target/
+/example-client/target/
+
+/Netty-based RPC Framework.iml
+/example-server/example-server.iml
+/example-client/example-client.iml
+/rpc-framework-core/rpc-framework-core.iml
+/rpc-framework-common/rpc-framework-common.iml
+/hello-service-api/hello-service-api.iml
+
+/.settings
+*/.settings
+.classpath
+.project
+.DS_Store

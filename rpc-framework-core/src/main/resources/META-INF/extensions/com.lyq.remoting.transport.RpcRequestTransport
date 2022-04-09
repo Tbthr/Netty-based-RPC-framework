@@ -1,0 +1,2 @@
+netty=com.lyq.remoting.transport.netty.client.NettyRpcClient
+socket=com.lyq.remoting.transport.socket.SocketRpcClient

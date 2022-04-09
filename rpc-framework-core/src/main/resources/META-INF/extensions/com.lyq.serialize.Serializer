@@ -1,0 +1,3 @@
+kyro=com.lyq.serialize.kyro.KryoSerializer
+protostuff=com.lyq.serialize.protostuff.ProtostuffSerializer
+hessian=com.lyq.serialize.hessian.HessianSerializer
