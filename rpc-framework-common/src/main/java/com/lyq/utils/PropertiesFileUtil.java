@@ -19,8 +19,11 @@ public final class PropertiesFileUtil {
         URL url = Thread.currentThread().getContextClassLoader().getResource("");
         String rpcConfigPath = "";
         if (url != null) {
+            // getPath() 获取 'file:' 后面的字符串
             rpcConfigPath = url.getPath() + fileName;
         }
+        // 解决空格变为"%20"而导致的 FileNotFoundException
+        rpcConfigPath = rpcConfigPath.replaceAll("%20", " ");
         Properties properties = null;
         try (InputStreamReader inputStreamReader = new InputStreamReader(
                 new FileInputStream(rpcConfigPath), StandardCharsets.UTF_8)) {

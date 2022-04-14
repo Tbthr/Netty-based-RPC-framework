@@ -17,10 +17,9 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.Arrays;
 
 /**
- * custom protocol decoder
- *
+ * 自定义协议解码器
  * <p>
- * {@link LengthFieldBasedFrameDecoder} is a length-based decoder , used to solve TCP unpacking and sticking problems.
+ * LengthFieldBasedFrameDecoder 基于长度解码器 , 被用来解决 TCP 粘包、拆包 问题
  * </p>
  */
 @Slf4j
@@ -63,7 +62,6 @@ public class RpcMessageDecoder extends LengthFieldBasedFrameDecoder {
                     frame.release();
                 }
             }
-
         }
         return decoded;
     }
@@ -114,7 +112,6 @@ public class RpcMessageDecoder extends LengthFieldBasedFrameDecoder {
             }
         }
         return rpcMessage;
-
     }
 
     private void checkVersion(ByteBuf in) {

@@ -9,7 +9,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * RPC service annotation, marked on the service implementation class
+ * 被修饰的类将被放入 Spring 容器，并向 Zookeeper 注册服务
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)

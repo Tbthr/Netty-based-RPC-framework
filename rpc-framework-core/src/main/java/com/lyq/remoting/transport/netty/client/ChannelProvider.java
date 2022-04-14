@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * store and get Channel object
+ * Channel 复用
  */
 @Slf4j
 public class ChannelProvider {
@@ -37,11 +37,5 @@ public class ChannelProvider {
     public void set(InetSocketAddress inetSocketAddress, Channel channel) {
         String key = inetSocketAddress.toString();
         channelMap.put(key, channel);
-    }
-
-    public void remove(InetSocketAddress inetSocketAddress) {
-        String key = inetSocketAddress.toString();
-        channelMap.remove(key);
-        log.info("Channel map size :[{}]", channelMap.size());
     }
 }

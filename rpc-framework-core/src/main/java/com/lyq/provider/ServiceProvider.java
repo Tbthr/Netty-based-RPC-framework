@@ -3,23 +3,22 @@ package com.lyq.provider;
 import com.lyq.config.RpcServiceConfig;
 
 /**
- * store and provide service object.
+ * 存储并提供服务
  */
 public interface ServiceProvider {
 
     /**
-     * @param rpcServiceConfig rpc service related attributes
+     * @param rpcServiceConfig version + group + service
      */
     void addService(RpcServiceConfig rpcServiceConfig);
 
     /**
-     * @param rpcServiceName rpc service name
-     * @return service object
+     * 根据服务名称返回服务实体
      */
     Object getService(String rpcServiceName);
 
     /**
-     * @param rpcServiceConfig rpc service related attributes
+     * @param rpcServiceConfig version + group + service
      */
     void publishService(RpcServiceConfig rpcServiceConfig);
 

@@ -36,6 +36,7 @@ public class CustomScannerRegistrar implements ImportBeanDefinitionRegistrar, Re
             rpcScanBasePackages = rpcScanAnnotationAttributes.getStringArray(BASE_PACKAGE_ATTRIBUTE_NAME);
         }
         if (rpcScanBasePackages.length == 0) {
+            // 获取启动类 com.lyq.NettyServerMain 所在的包名，即 com.lyq
             rpcScanBasePackages = new String[]{((StandardAnnotationMetadata) annotationMetadata).getIntrospectedClass().getPackage().getName()};
         }
         // Scan the RpcService annotation

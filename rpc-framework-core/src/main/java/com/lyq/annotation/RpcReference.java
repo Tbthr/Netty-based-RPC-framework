@@ -9,7 +9,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * RPC reference annotation, autowire the service implementation class
+ * 被修饰的字段会被自动注入（代理类）
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)

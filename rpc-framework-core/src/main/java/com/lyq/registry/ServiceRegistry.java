@@ -4,16 +4,13 @@ import com.lyq.extension.SPI;
 
 import java.net.InetSocketAddress;
 
-/**
- * service registration
- */
 @SPI
 public interface ServiceRegistry {
     /**
-     * register service
+     * 注册服务
      *
-     * @param rpcServiceName    rpc service name
-     * @param inetSocketAddress service address
+     * @param rpcServiceName 服务名称
+     * @param inetSocketAddress 服务地址
      */
     void registerService(String rpcServiceName, InetSocketAddress inetSocketAddress);
 

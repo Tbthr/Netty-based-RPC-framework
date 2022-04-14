@@ -20,8 +20,8 @@ import java.util.concurrent.ConcurrentHashMap;
 public class ZkServiceProviderImpl implements ServiceProvider {
 
     /**
-     * key: rpc service name(interface name + version + group)
-     * value: service object
+     * key: 服务名称 (interface name + version + group)
+     * value: 服务实体类
      */
     private final Map<String, Object> serviceMap;
     private final Set<String> registeredService;
@@ -57,7 +57,7 @@ public class ZkServiceProviderImpl implements ServiceProvider {
     public void publishService(RpcServiceConfig rpcServiceConfig) {
         try {
             String host = InetAddress.getLocalHost().getHostAddress();
-            this.addService(rpcServiceConfig);
+            addService(rpcServiceConfig);
             serviceRegistry.registerService(rpcServiceConfig.getRpcServiceName(), new InetSocketAddress(host, NettyRpcServer.PORT));
         } catch (UnknownHostException e) {
             log.error("occur exception when getHostAddress", e);

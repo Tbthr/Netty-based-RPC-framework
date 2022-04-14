@@ -15,17 +15,17 @@ import lombok.ToString;
 @ToString
 public class RpcServiceConfig {
     /**
-     * service version
+     * 服务版本号
      */
     private String version = "";
 
     /**
-     * when the interface has multiple implementation classes, distinguish by group
+     * 当一个接口有多个实现类时，用该字段来区分
      */
     private String group = "";
 
     /**
-     * target service
+     * 目标服务
      */
     private Object service;
 

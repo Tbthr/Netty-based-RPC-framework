@@ -4,14 +4,7 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
-import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 /**
  * 创建 ThreadPool(线程池) 的工具类.
@@ -70,8 +63,11 @@ public final class ThreadPoolFactoryUtil {
 
     private static ExecutorService createThreadPool(CustomThreadPoolConfig customThreadPoolConfig, String threadNamePrefix, Boolean daemon) {
         ThreadFactory threadFactory = createThreadFactory(threadNamePrefix, daemon);
-        return new ThreadPoolExecutor(customThreadPoolConfig.getCorePoolSize(), customThreadPoolConfig.getMaximumPoolSize(),
-                customThreadPoolConfig.getKeepAliveTime(), customThreadPoolConfig.getUnit(), customThreadPoolConfig.getWorkQueue(),
+        return new ThreadPoolExecutor(customThreadPoolConfig.getCorePoolSize(),
+                customThreadPoolConfig.getMaximumPoolSize(),
+                customThreadPoolConfig.getKeepAliveTime(),
+                customThreadPoolConfig.getUnit(),
+                customThreadPoolConfig.getWorkQueue(),
                 threadFactory);
     }
 

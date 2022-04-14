@@ -19,12 +19,8 @@ import lombok.extern.slf4j.Slf4j;
 import java.net.InetSocketAddress;
 
 /**
- * <p>Customize the client ChannelHandler to process the data sent by the server</p>
- *
- * <p>
- * 如果继承自 SimpleChannelInboundHandler 的话就不要考虑 ByteBuf 的释放 ，{@link SimpleChannelInboundHandler} 内部的
- * channelRead 方法会替你释放 ByteBuf ，避免可能导致的内存泄露问题。
- * </p>
+ * 如果继承自 SimpleChannelInboundHandler 就不考虑 ByteBuf 的释放 ，SimpleChannelInboundHandler 内部的
+ * channelRead 方法会自动释放 ByteBuf ，避免可能导致的内存泄露问题
  */
 @Slf4j
 public class NettyRpcClientHandler extends ChannelInboundHandlerAdapter {

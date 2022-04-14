@@ -17,23 +17,24 @@ import lombok.ToString;
 public class RpcMessage {
 
     /**
-     * rpc message type
+     * rpc 消息类型（ping/pong/常规请求）
      */
     private byte messageType;
     /**
-     * serialization type
+     * 序列化类型
      */
     private byte codec;
     /**
-     * compress type
+     * 压缩类型
      */
     private byte compress;
     /**
-     * request id
+     * 请求 ID（用 IntegerAtomic 生成）
      */
     private int requestId;
     /**
-     * request data
+     * 请求数据（其中包含一个 requestId，是 String 类型
+     * 用以 UnprocessedRequests 中 CompletableFuture 来异步处理）
      */
     private Object data;
 

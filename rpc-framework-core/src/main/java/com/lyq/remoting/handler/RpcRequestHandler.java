@@ -11,7 +11,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 /**
- * RpcRequest processor
+ * 处理 rpc 请求，返回执行结果
  */
 @Slf4j
 public class RpcRequestHandler {
@@ -21,21 +21,11 @@ public class RpcRequestHandler {
         serviceProvider = SingletonFactory.getInstance(ZkServiceProviderImpl.class);
     }
 
-    /**
-     * Processing rpcRequest: call the corresponding method, and then return the method
-     */
     public Object handle(RpcRequest rpcRequest) {
         Object service = serviceProvider.getService(rpcRequest.getRpcServiceName());
         return invokeTargetMethod(rpcRequest, service);
     }
 
-    /**
-     * get method execution results
-     *
-     * @param rpcRequest client request
-     * @param service    service object
-     * @return the result of the target method execution
-     */
     private Object invokeTargetMethod(RpcRequest rpcRequest, Object service) {
         Object result;
         try {

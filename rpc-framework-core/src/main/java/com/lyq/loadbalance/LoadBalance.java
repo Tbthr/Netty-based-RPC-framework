@@ -5,17 +5,14 @@ import com.lyq.remoting.dto.RpcRequest;
 
 import java.util.List;
 
-/**
- * Interface to the load balancing policy
- */
 @SPI
 public interface LoadBalance {
     /**
-     * Choose one from the list of existing service addresses list
+     * 从服务地址列表中选择一个返回
      *
-     * @param serviceUrlList Service address list
-     * @param rpcRequest
-     * @return target service address
+     * @param serviceUrlList 服务地址列表
+     * @param rpcRequest 服务请求实体
+     * @return 被选中的某个地址
      */
     String selectServiceAddress(List<String> serviceUrlList, RpcRequest rpcRequest);
 }

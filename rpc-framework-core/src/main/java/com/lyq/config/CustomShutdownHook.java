@@ -10,7 +10,7 @@ import java.net.InetSocketAddress;
 import java.net.UnknownHostException;
 
 /**
- * When the server  is closed, do something such as unregister all services
+ * 当虚拟机关闭前会被执行
  */
 @Slf4j
 public class CustomShutdownHook {
@@ -24,6 +24,7 @@ public class CustomShutdownHook {
         log.info("addShutdownHook for clearAll");
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             try {
+                // 注销服务
                 InetSocketAddress inetSocketAddress = new InetSocketAddress(InetAddress.getLocalHost().getHostAddress(), NettyRpcServer.PORT);
                 CuratorUtils.clearRegistry(CuratorUtils.getZkClient(), inetSocketAddress);
             } catch (UnknownHostException ignored) {

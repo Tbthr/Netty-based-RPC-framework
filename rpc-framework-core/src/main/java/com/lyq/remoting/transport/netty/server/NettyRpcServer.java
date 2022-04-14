@@ -1,20 +1,12 @@
 package com.lyq.remoting.transport.netty.server;
 
 import com.lyq.config.CustomShutdownHook;
-import com.lyq.config.RpcServiceConfig;
-import com.lyq.factory.SingletonFactory;
-import com.lyq.provider.ServiceProvider;
-import com.lyq.provider.impl.ZkServiceProviderImpl;
 import com.lyq.remoting.transport.netty.codec.RpcMessageDecoder;
 import com.lyq.remoting.transport.netty.codec.RpcMessageEncoder;
 import com.lyq.utils.RuntimeUtil;
 import com.lyq.utils.concurrent.threadpool.ThreadPoolFactoryUtil;
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelInitializer;
-import io.netty.channel.ChannelOption;
-import io.netty.channel.ChannelPipeline;
-import io.netty.channel.EventLoopGroup;
+import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
@@ -29,24 +21,15 @@ import org.springframework.stereotype.Component;
 import java.net.InetAddress;
 import java.util.concurrent.TimeUnit;
 
-/**
- * Server. Receive the client message, call the corresponding method according to the client message,
- * and then return the result to the client.
- */
 @Slf4j
 @Component
 public class NettyRpcServer {
 
     public static final int PORT = 9997;
 
-    private final ServiceProvider serviceProvider = SingletonFactory.getInstance(ZkServiceProviderImpl.class);
-
-    public void registerService(RpcServiceConfig rpcServiceConfig) {
-        serviceProvider.publishService(rpcServiceConfig);
-    }
-
     @SneakyThrows
     public void start() {
+        // 当虚拟机关闭的时候注销服务信息
         CustomShutdownHook.getCustomShutdownHook().clearAll();
         String host = InetAddress.getLocalHost().getHostAddress();
         EventLoopGroup bossGroup = new NioEventLoopGroup(1);
@@ -59,11 +42,12 @@ public class NettyRpcServer {
             ServerBootstrap b = new ServerBootstrap();
             b.group(bossGroup, workerGroup)
                     .channel(NioServerSocketChannel.class)
-                    // TCP默认开启了 Nagle 算法，该算法的作用是尽可能的发送大数据快，减少网络传输。TCP_NODELAY 参数的作用就是控制是否启用 Nagle 算法。
+                    // TCP 默认开启了 Nagle 算法，该算法的作用是尽可能的发送大数据快，减少网络传输
+                    // TCP_NODELAY 参数的作用就是控制是否启用 Nagle 算法
                     .childOption(ChannelOption.TCP_NODELAY, true)
                     // 是否开启 TCP 底层心跳机制
                     .childOption(ChannelOption.SO_KEEPALIVE, true)
-                    //表示系统用于临时存放已完成三次握手的请求的队列的最大长度,如果连接建立频繁，服务器处理创建新连接较慢，可以适当调大这个参数
+                    // 表示系统用于临时存放已完成三次握手的请求的队列的最大长度,如果连接建立频繁，服务器处理创建新连接较慢，可以适当调大这个参数
                     .option(ChannelOption.SO_BACKLOG, 128)
                     .handler(new LoggingHandler(LogLevel.INFO))
                     // 当客户端第一次进行请求的时候才会进行初始化

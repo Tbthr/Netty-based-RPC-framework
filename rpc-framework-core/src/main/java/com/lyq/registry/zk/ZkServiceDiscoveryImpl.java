@@ -15,7 +15,7 @@ import java.net.InetSocketAddress;
 import java.util.List;
 
 /**
- * service discovery based on zookeeper
+ * 服务路由
  */
 @Slf4j
 public class ZkServiceDiscoveryImpl implements ServiceDiscovery {

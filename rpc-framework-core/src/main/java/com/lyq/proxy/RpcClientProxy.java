@@ -19,9 +19,7 @@ import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 /**
- * <p>Dynamic proxy class.</p>
- * <p>When a dynamic proxy object calls a method, it actually calls the following invoke method.</p>
- * <p>It is precisely because of the dynamic proxy that the remote method called by the client is like calling the local method (the intermediate process is shielded)</p>
+ * 动态代理：实现 “远程过程调用就像本地方法调用一样” 的根本所在</p>
  */
 @Slf4j
 public class RpcClientProxy implements InvocationHandler {
@@ -29,7 +27,7 @@ public class RpcClientProxy implements InvocationHandler {
     private static final String INTERFACE_NAME = "interfaceName";
 
     /**
-     * Used to send requests to the server.And there are two implementations: socket and netty
+     * 有两种网络传输实现：socket and netty
      */
     private final RpcRequestTransport rpcRequestTransport;
     private final RpcServiceConfig rpcServiceConfig;
@@ -46,7 +44,7 @@ public class RpcClientProxy implements InvocationHandler {
     }
 
     /**
-     * get the proxy object
+     * 获取代理类（约定传入的 clazz 都是接口类）
      */
     @SuppressWarnings("unchecked")
     public <T> T getProxy(Class<T> clazz) {
@@ -54,8 +52,7 @@ public class RpcClientProxy implements InvocationHandler {
     }
 
     /**
-     * This method is actually called when you use a proxy object to call a method.
-     * The proxy object is the object you get through the getProxy method.
+     * 当使用代理对象调用方法时，实际执行的是 invoke() 中的内容
      */
     @SneakyThrows
     @SuppressWarnings("unchecked")
@@ -78,7 +75,7 @@ public class RpcClientProxy implements InvocationHandler {
         if (rpcRequestTransport instanceof SocketRpcClient) {
             rpcResponse = (RpcResponse<Object>) rpcRequestTransport.sendRpcRequest(rpcRequest);
         }
-        this.check(rpcResponse, rpcRequest);
+        check(rpcResponse, rpcRequest);
         return rpcResponse.getData();
     }
 

@@ -5,16 +5,13 @@ import com.lyq.extension.SPI;
 
 import java.net.InetSocketAddress;
 
-/**
- * service discovery
- */
 @SPI
 public interface ServiceDiscovery {
     /**
-     * lookup service by rpcServiceName
+     * 通过 rpcServiceName 查找服务
      *
-     * @param rpcRequest rpc service pojo
-     * @return service address
+     * @param rpcRequest rpc 请求实体类
+     * @return 服务地址
      */
     InetSocketAddress lookupService(RpcRequest rpcRequest);
 }

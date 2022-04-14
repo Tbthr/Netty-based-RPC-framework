@@ -15,7 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * custom protocol encoder
+ * 自定义协议编码器
  */
 @Slf4j
 public class RpcMessageEncoder extends MessageToByteEncoder<RpcMessage> {
@@ -31,7 +31,7 @@ public class RpcMessageEncoder extends MessageToByteEncoder<RpcMessage> {
             byte messageType = rpcMessage.getMessageType();
             out.writeByte(messageType);
             out.writeByte(rpcMessage.getCodec());
-            out.writeByte(CompressTypeEnum.GZIP.getCode());
+            out.writeByte(rpcMessage.getCompress());
             out.writeInt(ATOMIC_INTEGER.getAndIncrement());
             // build full length
             byte[] bodyBytes = null;
@@ -63,9 +63,6 @@ public class RpcMessageEncoder extends MessageToByteEncoder<RpcMessage> {
         } catch (Exception e) {
             log.error("Encode request error!", e);
         }
-
     }
-
-
 }
 
