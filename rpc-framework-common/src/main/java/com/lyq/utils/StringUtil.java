@@ -1,5 +1,7 @@
 package com.lyq.utils;
 
+import java.util.Arrays;
+
 /**
  * String 工具类
  */
@@ -15,5 +17,14 @@ public class StringUtil {
             }
         }
         return true;
+    }
+
+    public static String join(Object[] objects) {
+        if (objects == null || objects.length == 0) {
+            return "";
+        }
+        StringBuilder sb = new StringBuilder();
+        Arrays.stream(objects).forEach(sb::append);
+        return sb.toString();
     }
 }

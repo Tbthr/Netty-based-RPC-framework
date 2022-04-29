@@ -58,7 +58,7 @@ public class NettyRpcClientHandler extends ChannelInboundHandlerAdapter {
     public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
         if (evt instanceof IdleStateEvent) {
             IdleState state = ((IdleStateEvent) evt).state();
-            if (state == IdleState.WRITER_IDLE) {
+            if (state == IdleState.WRITER_IDLE) { // 一段时间没有数据写出，发出心跳包
                 log.info("write idle happen [{}]", ctx.channel().remoteAddress());
                 Channel channel = nettyRpcClient.getChannel((InetSocketAddress) ctx.channel().remoteAddress());
                 RpcMessage rpcMessage = new RpcMessage();

@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.curator.framework.CuratorFramework;
 
 import java.net.InetSocketAddress;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -30,6 +31,7 @@ public class ZkServiceDiscoveryImpl implements ServiceDiscovery {
         String rpcServiceName = rpcRequest.getRpcServiceName();
         CuratorFramework zkClient = CuratorUtils.getZkClient();
         List<String> serviceUrlList = CuratorUtils.getChildrenNodes(zkClient, rpcServiceName);
+        log.info("The services list:[{}]", Arrays.toString(serviceUrlList.toArray()));
         if (CollectionUtil.isEmpty(serviceUrlList)) {
             throw new RpcException(RpcErrorMessageEnum.SERVICE_CAN_NOT_BE_FOUND, rpcServiceName);
         }

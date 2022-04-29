@@ -2,12 +2,12 @@ package com.lyq.loadbalance.loadbalancer;
 
 import com.lyq.loadbalance.AbstractLoadBalance;
 import com.lyq.remoting.dto.RpcRequest;
+import com.lyq.utils.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -31,12 +31,12 @@ public class ConsistentHashLoadBalance extends AbstractLoadBalance {
             selectors.put(rpcServiceName, new ConsistentHashSelector(serviceAddresses, 160, identityHashCode));
             selector = selectors.get(rpcServiceName);
         }
-        return selector.select(rpcServiceName + Arrays.stream(rpcRequest.getParameters()));
+//        return selector.select(rpcServiceName + Arrays.stream(rpcRequest.getParameters()));
+        return selector.select(rpcServiceName + "-" + StringUtil.join(rpcRequest.getParameters()));
     }
 
     static class ConsistentHashSelector {
         private final TreeMap<Long, String> virtualInvokers;
-
         private final int identityHashCode;
 
         ConsistentHashSelector(List<String> invokers, int replicaNumber, int identityHashCode) {
