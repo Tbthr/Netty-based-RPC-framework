@@ -2,6 +2,7 @@ package com.lyq.registry.zk.util;
 
 import com.lyq.enums.RpcConfigEnum;
 import com.lyq.utils.PropertiesFileUtil;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.curator.RetryPolicy;
 import org.apache.curator.framework.CuratorFramework;
@@ -13,10 +14,7 @@ import org.apache.curator.retry.ExponentialBackoffRetry;
 import org.apache.zookeeper.CreateMode;
 
 import java.net.InetSocketAddress;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
@@ -43,6 +41,25 @@ public final class CuratorUtils {
     private static final String DEFAULT_ZOOKEEPER_ADDRESS = "127.0.0.1:2181";
 
     private CuratorUtils() {
+    }
+
+    /**
+     * 获取/my-rpc下的节点信息
+     */
+    @SneakyThrows
+    public static Map<String, List<String>> getAllNodes() {
+        CuratorFramework zkClient = getZkClient();
+        List<String> rpcServices = zkClient.getChildren().forPath(ZK_REGISTER_ROOT_PATH);
+        Map<String, List<String>> result = new HashMap<>();
+        rpcServices.forEach(service -> {
+            try {
+                List<String> serviceAddress = zkClient.getChildren().forPath(ZK_REGISTER_ROOT_PATH + "/" + service);
+                result.put(service, serviceAddress);
+            } catch (Exception e) {
+                log.error("get children nodes for path [{}] fail", service);
+            }
+        });
+        return result;
     }
 
     /**

@@ -1,21 +1,56 @@
 package com.lyq;
 
 import com.lyq.annotation.RpcReference;
+import com.lyq.registry.zk.util.CuratorUtils;
+import com.lyq.remoting.transport.netty.client.NettyRpcClient;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+import java.util.Map;
+
+@Slf4j
 @Component
+@RestController
+@RequestMapping("/rpc")
 public class HelloController {
+
+    private static final Hello HELLO = new Hello();
 
     @RpcReference(version = "version1", group = "test1")
     private HelloService helloService;
 
+    @GetMapping("/getNodesMsg")
+    public Map<String, List<String>> getNodesMsg() {
+        return CuratorUtils.getAllNodes();
+    }
+
+    @GetMapping("/sendMsg")
+    public String sendMsg(@RequestParam("msg") String msg) {
+        if (msg == null || msg.length() == 0 || !msg.contains(",")) {
+            return "发送信息有误！";
+        }
+        String[] split = msg.split(",");
+        HELLO.setMessage(split[0]);
+        HELLO.setDescription(split[1]);
+        String result = helloService.hello(HELLO);
+        return "成功接收客户端发起的调用：\n"
+                + "\n调用节点：\n" + NettyRpcClient.url.replace("/", "")
+                + "\n"
+                + "\n返回结果：\n" + result;
+    }
+
     public void test() {
         Hello hello = new Hello("111", "222");
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 1; i++) {
             String s = helloService.hello(hello);
-            System.out.println("s = " + s);
             // 如需使用 assert 断言，需要在 VM options 添加参数：-ea
             assert "Hello description is 222".equals(s);
+            log.info("客户端第一次远程调用成功！");
         }
     }
 

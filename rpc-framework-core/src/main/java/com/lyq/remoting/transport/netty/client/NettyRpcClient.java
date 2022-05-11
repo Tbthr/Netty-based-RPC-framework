@@ -41,6 +41,8 @@ public final class NettyRpcClient implements RpcRequestTransport {
     private final Bootstrap bootstrap;
     private final EventLoopGroup eventLoopGroup;
 
+    public static String url;
+
     public NettyRpcClient() {
         // initialize resources such as EventLoopGroup, Bootstrap
         eventLoopGroup = new NioEventLoopGroup();
@@ -93,6 +95,8 @@ public final class NettyRpcClient implements RpcRequestTransport {
         CompletableFuture<RpcResponse<Object>> resultFuture = new CompletableFuture<>();
         // get server address
         InetSocketAddress inetSocketAddress = serviceDiscovery.lookupService(rpcRequest);
+        // get url
+        url = inetSocketAddress.toString();
         // get  server address related channel
         Channel channel = getChannel(inetSocketAddress);
         if (channel.isActive()) {

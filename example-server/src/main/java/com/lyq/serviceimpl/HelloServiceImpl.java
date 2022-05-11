@@ -18,9 +18,7 @@ public class HelloServiceImpl implements HelloService {
 
     @Override
     public String hello(Hello hello) {
-        log.info("HelloServiceImpl收到: {}.", hello.getMessage());
-        String result = "Hello description is " + hello.getDescription();
-        log.info("HelloServiceImpl返回: {}.", result);
-        return result;
+        log.info("HelloServiceImpl收到: {}.", hello.toString());
+        return hello.toString();
     }
 }
