@@ -1,6 +1,7 @@
 package com.lyq;
 
 import com.lyq.annotation.RpcScan;
+import com.lyq.show.HelloController;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 @RpcScan(basePackage = {"com.lyq"})

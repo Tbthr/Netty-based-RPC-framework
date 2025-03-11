@@ -3,10 +3,13 @@ package com.lyq.remoting.transport.netty.server;
 import com.lyq.config.CustomShutdownHook;
 import com.lyq.remoting.transport.netty.codec.RpcMessageDecoder;
 import com.lyq.remoting.transport.netty.codec.RpcMessageEncoder;
-import com.lyq.utils.RuntimeUtil;
 import com.lyq.utils.concurrent.threadpool.ThreadPoolFactoryUtil;
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.*;
+import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelInitializer;
+import io.netty.channel.ChannelOption;
+import io.netty.channel.ChannelPipeline;
+import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
@@ -35,15 +38,15 @@ public class NettyRpcServer {
         EventLoopGroup bossGroup = new NioEventLoopGroup(1);
         EventLoopGroup workerGroup = new NioEventLoopGroup();
         DefaultEventExecutorGroup serviceHandlerGroup = new DefaultEventExecutorGroup(
-                RuntimeUtil.cpus() * 2,
+            Runtime.getRuntime().availableProcessors() * 2, // CPU 核心数的两倍
                 ThreadPoolFactoryUtil.createThreadFactory("service-handler-group", false)
         );
         try {
             ServerBootstrap b = new ServerBootstrap();
+            // ServerBootstrap 设置 Channel 属性有option和childOption两个方法，option 主要负责设置 Boss 线程组，而 childOption 对应的是 Worker 线程组
             b.group(bossGroup, workerGroup)
                     .channel(NioServerSocketChannel.class)
-                    // TCP 默认开启了 Nagle 算法，该算法的作用是尽可能的发送大数据快，减少网络传输
-                    // TCP_NODELAY 参数的作用就是控制是否启用 Nagle 算法
+                    // 默认是 true，表示立即发送数据。如果设置为 false 表示启用 Nagle 算法，该算法会将 TCP 网络数据包累积到一定量才会发送，虽然可以减少报文发送的数量，但是会造成一定的数据延迟。Netty 为了最小化数据传输的延迟，默认禁用了 Nagle 算法
                     .childOption(ChannelOption.TCP_NODELAY, true)
                     // 是否开启 TCP 底层心跳机制
                     .childOption(ChannelOption.SO_KEEPALIVE, true)

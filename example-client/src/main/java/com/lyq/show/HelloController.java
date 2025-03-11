@@ -1,10 +1,11 @@
-package com.lyq;
+package com.lyq.show;
 
+import com.lyq.Hello;
+import com.lyq.HelloService;
 import com.lyq.annotation.RpcReference;
 import com.lyq.registry.zk.util.CuratorUtils;
 import com.lyq.remoting.transport.netty.client.NettyRpcClient;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,7 +15,6 @@ import java.util.List;
 import java.util.Map;
 
 @Slf4j
-@Component
 @RestController
 @RequestMapping("/rpc")
 public class HelloController {
@@ -44,13 +44,15 @@ public class HelloController {
                 + "\n返回结果：\n" + result;
     }
 
-    public void test() {
-        Hello hello = new Hello("111", "222");
-        for (int i = 0; i < 1; i++) {
+    public void test() throws InterruptedException {
+        for (int i = 0; i < 100; i++) {
+            Hello hello = new Hello(String.valueOf(i), String.valueOf(i));
             String s = helloService.hello(hello);
             // 如需使用 assert 断言，需要在 VM options 添加参数：-ea
-            assert "Hello description is 222".equals(s);
-            log.info("客户端第一次远程调用成功！");
+//            assert "Hello description is 222".equals(s);
+            log.info("客户端远程调用成功，响应结果为：{}", s);
+
+            Thread.sleep(2000);
         }
     }
 

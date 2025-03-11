@@ -26,7 +26,7 @@ class ConsistentHashLoadBalanceTest {
                 .group("test2").version("version2").service(demoRpcService).build();
 
         RpcRequest rpcRequest = RpcRequest.builder()
-                .parameters(demoRpcService.getClass().getTypeParameters())
+                .parameters(new Object[]{"sayhelooloo", "sayhelooloosayhelooloo"})
                 .interfaceName(rpcServiceConfig.getServiceName())
                 .requestId(UUID.randomUUID().toString())
                 .group(rpcServiceConfig.getGroup())

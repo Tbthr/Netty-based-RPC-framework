@@ -12,7 +12,6 @@ import com.lyq.remoting.handler.RpcRequestHandler;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
-import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.timeout.IdleState;
 import io.netty.handler.timeout.IdleStateEvent;
 import io.netty.util.ReferenceCountUtil;
@@ -77,8 +76,7 @@ public class NettyRpcServerHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
-        log.error("server catch exception, details as follows:");
-        cause.printStackTrace();
+        log.error("server catch exception: [{}] {}", cause.getClass().getSimpleName(), cause.getMessage(), cause);
         ctx.close();
     }
 }

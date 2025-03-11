@@ -8,7 +8,7 @@ import java.util.Arrays;
 public class StringUtil {
 
     public static boolean isBlank(String s) {
-        if (s == null || s.length() == 0) {
+        if (s == null || s.isEmpty()) {
             return true;
         }
         for (int i = 0; i < s.length(); ++i) {

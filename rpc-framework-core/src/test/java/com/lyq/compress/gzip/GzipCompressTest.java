@@ -1,13 +1,13 @@
 package com.lyq.compress.gzip;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import com.lyq.compress.Compress;
 import com.lyq.remoting.dto.RpcRequest;
 import com.lyq.serialize.kyro.KryoSerializer;
 import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class GzipCompressTest {
     @Test

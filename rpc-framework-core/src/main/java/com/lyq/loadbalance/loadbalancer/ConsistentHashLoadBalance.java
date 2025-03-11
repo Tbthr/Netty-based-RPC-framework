@@ -31,7 +31,6 @@ public class ConsistentHashLoadBalance extends AbstractLoadBalance {
             selectors.put(rpcServiceName, new ConsistentHashSelector(serviceAddresses, 160, identityHashCode));
             selector = selectors.get(rpcServiceName);
         }
-//        return selector.select(rpcServiceName + Arrays.stream(rpcRequest.getParameters()));
         return selector.select(rpcServiceName + "-" + StringUtil.join(rpcRequest.getParameters()));
     }
 

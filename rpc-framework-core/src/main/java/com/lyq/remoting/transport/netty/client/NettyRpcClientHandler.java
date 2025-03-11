@@ -10,7 +10,6 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
-import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.timeout.IdleState;
 import io.netty.handler.timeout.IdleStateEvent;
 import io.netty.util.ReferenceCountUtil;
@@ -78,8 +77,7 @@ public class NettyRpcClientHandler extends ChannelInboundHandlerAdapter {
      */
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
-        log.error("client catch exception：", cause);
-        cause.printStackTrace();
+        log.error("client catch exception: [{}] {}", cause.getClass().getSimpleName(), cause.getMessage(), cause);
         ctx.close();
     }
 

@@ -1,5 +1,7 @@
 package com.lyq.registry;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import com.lyq.DemoRpcService;
 import com.lyq.DemoRpcServiceImpl;
 import com.lyq.config.RpcServiceConfig;
@@ -9,9 +11,6 @@ import com.lyq.remoting.dto.RpcRequest;
 import org.junit.jupiter.api.Test;
 
 import java.net.InetSocketAddress;
-import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ZkServiceRegistryImplTest {
     @Test
@@ -24,10 +23,8 @@ class ZkServiceRegistryImplTest {
         zkServiceRegistry.registerService(rpcServiceConfig.getRpcServiceName(), givenInetSocketAddress);
         ServiceDiscovery zkServiceDiscovery = new ZkServiceDiscoveryImpl();
         RpcRequest rpcRequest = RpcRequest.builder()
-//                .parameters(args)
+                .parameters(new Object[]{"sayhelooloo", "sayhelooloosayhelooloo"})
                 .interfaceName(rpcServiceConfig.getServiceName())
-//                .paramTypes(method.getParameterTypes())
-                .requestId(UUID.randomUUID().toString())
                 .group(rpcServiceConfig.getGroup())
                 .version(rpcServiceConfig.getVersion())
                 .build();

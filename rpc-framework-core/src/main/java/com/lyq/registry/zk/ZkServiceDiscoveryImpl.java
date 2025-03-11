@@ -1,15 +1,15 @@
 package com.lyq.registry.zk;
 
-import com.lyq.loadbalance.LoadBalance;
-import com.lyq.registry.ServiceDiscovery;
-import com.lyq.remoting.dto.RpcRequest;
 import com.lyq.enums.RpcErrorMessageEnum;
 import com.lyq.exception.RpcException;
 import com.lyq.extension.ExtensionLoader;
+import com.lyq.loadbalance.LoadBalance;
+import com.lyq.registry.ServiceDiscovery;
 import com.lyq.registry.zk.util.CuratorUtils;
-import com.lyq.utils.CollectionUtil;
+import com.lyq.remoting.dto.RpcRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.curator.framework.CuratorFramework;
+import org.springframework.util.CollectionUtils;
 
 import java.net.InetSocketAddress;
 import java.util.Arrays;
@@ -32,7 +32,7 @@ public class ZkServiceDiscoveryImpl implements ServiceDiscovery {
         CuratorFramework zkClient = CuratorUtils.getZkClient();
         List<String> serviceUrlList = CuratorUtils.getChildrenNodes(zkClient, rpcServiceName);
         log.info("The services list:[{}]", Arrays.toString(serviceUrlList.toArray()));
-        if (CollectionUtil.isEmpty(serviceUrlList)) {
+        if (CollectionUtils.isEmpty(serviceUrlList)) {
             throw new RpcException(RpcErrorMessageEnum.SERVICE_CAN_NOT_BE_FOUND, rpcServiceName);
         }
         // load balancing

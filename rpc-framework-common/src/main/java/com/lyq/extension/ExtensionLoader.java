@@ -1,5 +1,7 @@
 package com.lyq.extension;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import com.lyq.utils.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 
@@ -11,8 +13,6 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-
-import static java.nio.charset.StandardCharsets.UTF_8;
 
 /**
  * 参考 dubbo spi: https://dubbo.apache.org/zh-cn/docs/source_code_guide/dubbo-spi.html
@@ -141,13 +141,13 @@ public final class ExtensionLoader<T> {
                     line = line.substring(0, ci);
                 }
                 line = line.trim();
-                if (line.length() > 0) {
+                if (!line.isEmpty()) {
                     try {
                         final int ei = line.indexOf('=');
                         String name = line.substring(0, ei).trim();
                         String clazzName = line.substring(ei + 1).trim();
                         // our SPI use key-value pair so both of them must not be empty
-                        if (name.length() > 0 && clazzName.length() > 0) {
+                        if (!name.isEmpty() && !clazzName.isEmpty()) {
                             Class<?> clazz = classLoader.loadClass(clazzName);
                             extensionClasses.put(name, clazz);
                         }

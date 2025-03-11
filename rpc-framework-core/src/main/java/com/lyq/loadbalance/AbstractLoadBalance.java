@@ -1,14 +1,14 @@
 package com.lyq.loadbalance;
 
 import com.lyq.remoting.dto.RpcRequest;
-import com.lyq.utils.CollectionUtil;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 
 public abstract class AbstractLoadBalance implements LoadBalance {
     @Override
     public String selectServiceAddress(List<String> serviceAddresses, RpcRequest rpcRequest) {
-        if (CollectionUtil.isEmpty(serviceAddresses)) {
+        if (CollectionUtils.isEmpty(serviceAddresses)) {
             return null;
         }
         if (serviceAddresses.size() == 1) {
