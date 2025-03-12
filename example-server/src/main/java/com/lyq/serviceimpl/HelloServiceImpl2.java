@@ -10,12 +10,12 @@ import lombok.extern.slf4j.Slf4j;
 public class HelloServiceImpl2 implements HelloService {
 
     static {
-        System.out.println("HelloServiceImpl2被创建");
+        System.out.println("HelloServiceImpl2 被创建");
     }
 
     @Override
     public String hello(Hello hello) {
-        log.info("HelloServiceImpl收到: {}.", hello.toString());
+        log.info("HelloServiceImpl2 收到: {}.", hello.toString());
         return hello.toString();
     }
 }
