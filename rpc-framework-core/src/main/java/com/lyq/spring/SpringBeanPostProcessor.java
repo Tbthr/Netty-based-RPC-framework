@@ -36,7 +36,7 @@ public class SpringBeanPostProcessor implements BeanPostProcessor {
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
         if (bean.getClass().isAnnotationPresent(RpcService.class)) {
-            log.info("[{}] is annotated with  [{}]", bean.getClass().getName(), RpcService.class.getCanonicalName());
+            log.info("[{}] is annotated with [{}], will be registry to zookeeper", bean.getClass().getName(), RpcService.class.getCanonicalName());
             // get RpcService annotation
             RpcService rpcService = bean.getClass().getAnnotation(RpcService.class);
             // build RpcServiceProperties

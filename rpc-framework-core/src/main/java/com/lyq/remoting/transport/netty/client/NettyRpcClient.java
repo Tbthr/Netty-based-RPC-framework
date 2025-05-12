@@ -122,6 +122,7 @@ public final class NettyRpcClient implements RpcRequestTransport {
         return resultFuture;
     }
 
+    // channel 复用
     public Channel getChannel(InetSocketAddress inetSocketAddress) {
         Channel channel = channelProvider.get(inetSocketAddress);
         if (channel == null) {
